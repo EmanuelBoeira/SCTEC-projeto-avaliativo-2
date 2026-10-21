@@ -4,7 +4,7 @@ sys.path.append('../../')
 import psycopg2
 from config import POSTGRESQL_CONFIG
 
-def execute_ddl(query) -> None:
+def execute_ddl(query:str) -> None:
 
     '''
     Function to execute data definition query on database configurated in config file.
@@ -32,7 +32,7 @@ def execute_ddl(query) -> None:
     except Error as e:
         print(e)
 
-def execute_dql(query) -> list[tuple]:
+def execute_dql(query:str) -> list[tuple]:
     
     '''
     Function to execute data query on database configurated in config file.
