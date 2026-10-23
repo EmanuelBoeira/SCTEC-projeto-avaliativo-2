@@ -1,8 +1,8 @@
 import sys
-sys.path.append('../../')
+sys.path.append('./')
+sys.path.append('./data/raw/')
 
 import psycopg2
-import pandas as pd
 from config import POSTGRESQL_CONFIG
 
 def execute_ddl(query:str) -> None:
@@ -92,15 +92,16 @@ def batch_insert(table_name:str, db_columns:list, csv_file:str):
     cur = conn.cursor()
 
     try:
-        for df in pd.read_csv(csv_file, sep=';',  chunksize=5000):
-            sql = f'''
-                INSERT INTO {table_name} ({', '.join(db_columns)})
-                VALUES %s
-                '''
+        with open(csv_file, 'r', encoding='latin1', newline='') as file:
 
-            filling_data = df[columns].astype(object).where(pd.notna(df[columns]), None).values.tolist()
-
-            execute_values(cur, sql, filling_data)
+            cur.copy_expert(
+                f'''
+                COPY {table_name} ({', '.join(db_columns)})
+                FROM STDIN
+                WITH (FORMAT CSV, DELIMITER ';', HEADER TRUE)
+                ''',
+                file
+            )
 
             conn.commit()
 

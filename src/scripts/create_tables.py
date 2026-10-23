@@ -1,9 +1,10 @@
 import sys
-sys.path.append('../utils/')
+sys.path.append('./src/utils/')
+sys.path.append('./src/scripts/')
 
 import postgresql_utils as pu
 
-with open('create_tables.sql', 'r', encoding='utf-8') as file:
+with open('./src/scripts/create_tables.sql', 'r', encoding='utf-8') as file:
     file_content = file.read()
 
 commands = file_content.split(';')
