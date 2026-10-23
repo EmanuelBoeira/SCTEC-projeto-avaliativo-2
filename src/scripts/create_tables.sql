@@ -88,7 +88,7 @@ DROP TABLE IF EXISTS silver_passagem CASCADE;
 DROP TABLE IF EXISTS silver_pagamento CASCADE;
 
 CREATE TABLE silver_viagem(
-	id_viagem VARCHAR(20) PRIMARY KEY NOT NULL,
+	id_viagem VARCHAR(20) PRIMARY KEY,
 	num_proposta VARCHAR(20),
 	situacao VARCHAR(50),
 	viagem_urgente VARCHAR(5),
@@ -105,28 +105,33 @@ CREATE TABLE silver_viagem(
 	valor_devolucao DECIMAL(10,2),
 	valor_outros_gastos DECIMAL(10,2),
 	valor_total DECIMAL(12,2)
-		GENERATED ALWAYS AS (valor_diarias + valor_passagem + valor_devolucao + valor_outros_gastos) STORED,
+		GENERATED ALWAYS AS (
+			COALESCE(valor_diarias, 0) + 
+			COALESCE(valor_passagens, 0) + 
+			COALESCE(valor_devolucao, 0) + 
+			COALESCE(valor_outros_gastos, 0)
+			) STORED,
 	duracao_dias INT
 		GENERATED ALWAYS AS (data_fim - data_inicio) STORED
 );
 
 CREATE TABLE silver_passagem(
-	id_passagem INT PRIMARY KEY SERIAL,
-	id_viagem VARCHAR(20) REFERENCES silver_viagem(id_viagem) NOT NULL,
+	id_passagem SERIAL PRIMARY KEY,
+	id_viagem VARCHAR(20) REFERENCES silver_viagem(id_viagem),
 	meio_transporte VARCHAR(50),
 	pais_origem_ida VARCHAR(60),
-	uf_origem_ida VARCHAR(40)
-	cidade_origem_ida VARCHAR(80)
-	pais_destino_ida VARCHAR(60)
-	uf_destino_ida VARCHAR(40)
-	cidade_destino_ida VARCHAR(80)
+	uf_origem_ida VARCHAR(40),
+	cidade_origem_ida VARCHAR(80),
+	pais_destino_ida VARCHAR(60),
+	uf_destino_ida VARCHAR(40),
+	cidade_destino_ida VARCHAR(80),
 	valor_passagem DECIMAL(10,2) CHECK (valor_passagem >= 0),
 	taxa_servico DECIMAL(10,2) CHECK (taxa_servico >= 0),
 	data_emissao DATE
 );
 
 CREATE TABLE silver_pagamento(
-	id_pagamento INT PRIMARY KEY SERIAL,
+	id_pagamento SERIAL PRIMARY KEY,
 	id_viagem VARCHAR(20) REFERENCES silver_viagem(id_viagem) NOT NULL,
 	num_proposta  VARCHAR(20),
 	nome_orgao_pagador VARCHAR(255),
@@ -136,7 +141,7 @@ CREATE TABLE silver_pagamento(
 );
 
 CREATE TABLE silver_trecho(
-	id_trecho INT PRIMARY KEY SERIAL UNIQUE,
+	id_trecho SERIAL PRIMARY KEY,
 	id_viagem VARCHAR(20) REFERENCES silver_viagem(id_viagem) NOT NULL,
 	sequencia_trecho INT UNIQUE,
 	origem_data DATE,

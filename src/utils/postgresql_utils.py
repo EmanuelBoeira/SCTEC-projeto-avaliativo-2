@@ -24,13 +24,15 @@ def execute_ddl(query:str) -> None:
         )
 
         cur = conn.cursor()
-
-        cur.execute(query)
+        
+        if query and query.strip():
+            cur.execute(query)
+            conn.commit()
 
         cur.close()
         conn.close()
 
-    except Error as e:
+    except Exception as e:
         print(e)
 
 def execute_dql(query:str) -> list[tuple]:
