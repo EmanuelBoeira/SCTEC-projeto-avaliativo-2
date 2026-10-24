@@ -1,9 +1,35 @@
 import sys
 sys.path.append('./')
-sys.path.append('./data/raw/')
+#sys.path.append('./data/raw/')
 
 import psycopg2
 from config import POSTGRESQL_CONFIG
+
+def cursor_postgresql_db() -> psycopg2.connect().cursor():
+
+    '''
+    Function to connect on database configurated in config file.
+    '''
+
+    try:
+        conn = psycopg2.connect(
+            host = POSTGRESQL_CONFIG['host'],
+            port = POSTGRESQL_CONFIG['port'],
+            dbname = POSTGRESQL_CONFIG['dbname'],
+            user = POSTGRESQL_CONFIG['user'],
+            password = POSTGRESQL_CONFIG['password']
+        )
+
+        return conn.cursor()
+        
+    except Exception as e:
+        print(e)
+
+        return None
+
+    finally:
+        conn.cursor().close()
+        conn.close()
 
 def execute_ddl(query:str) -> None:
 
