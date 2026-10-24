@@ -5,11 +5,7 @@ import pandas as pd
 import src.utils.postgresql_utils as puts
 
 #extracting data from raw tables and manipulating to put in silver tables
-conn = puts.connect_postgresql_db()
-
-cur = conn.cursor()
-
-columns = [
+db_columns = [
     'id_viagem',
     'situacao',
     'urgente',
@@ -28,12 +24,10 @@ columns = [
     ]
 
 query = f'''
-    SELECT {','.join(columns)} FROM raw_viagem;
+    SELECT {','.join(db_columns)} FROM raw_viagem;
     '''
 
-df = pd.read_sql_query(query, conn)
-
-conn.close()
+df = pd.DataFrame(puts.execute_dql(query), columns=db_columns)
 
 df = df.replace(['NaN', 'nan', ''], float('nan'))
 print(df.info())
