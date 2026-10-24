@@ -24,6 +24,7 @@ db_columns = [
     'valor_outros'
     ]
 
+#execute the query in chunks of 100000 lines to not overload RAM
 offset = 0
 
 while True:
@@ -39,7 +40,7 @@ while True:
     #creates a dataframe from the query above
     df = pd.DataFrame(rows, columns=db_columns)
 
-
+    #creates and append data from the chunk
     df.to_csv(
         './data/silver/silver_viagem.csv',
         mode='w' if offset == 0 else 'a',
