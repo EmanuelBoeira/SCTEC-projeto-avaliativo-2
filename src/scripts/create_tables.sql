@@ -31,7 +31,7 @@ CREATE TABLE raw_viagem(
 );
 
 CREATE TABLE raw_trecho(
-	id_trecho VARCHAR(10),
+	id_trecho VARCHAR(20),
 	num_proposta VARCHAR(20),
 	sequencia_trecho VARCHAR(20),
 	origem_data VARCHAR(30),
@@ -63,10 +63,10 @@ CREATE TABLE raw_passagem(
 	destino_volta_pais VARCHAR(60),
 	destino_volta_uf VARCHAR(40),
 	destino_volta_cidade VARCHAR(80),
-	valor_passagem VARCHAR(10),
-	taxa_servico VARCHAR(10),
+	valor_passagem VARCHAR(20),
+	taxa_servico VARCHAR(20),
 	data_compra VARCHAR(15),
-	hora_compra VARCHAR(10)
+	hora_compra VARCHAR(20)
 );
 
 CREATE TABLE raw_pagamento(
@@ -78,7 +78,7 @@ CREATE TABLE raw_pagamento(
 	nome_orgao_pagador VARCHAR(255),
 	cod_un_gestora_pagadora VARCHAR(20),
 	nome_un_gestora_pagadora VARCHAR(255),
-	tipo_pagamento VARCHAR(20),
+	tipo_pagamento VARCHAR(50),
 	valor VARCHAR(20)
 );
 

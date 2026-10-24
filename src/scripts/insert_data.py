@@ -37,7 +37,7 @@ columns = [
     'valor_outros'
     ]
 
-#puts.batch_insert('raw_viagem', columns, 'data/raw/2025_Viagem.csv')
+puts.batch_insert('raw_viagem', columns, 'data/raw/2025_Viagem.csv')
 
 #insert on raw_trecho
 columns = [
@@ -57,7 +57,7 @@ columns = [
     'missao'
     ]
 
-#puts.batch_insert('raw_trecho', columns, 'data/raw/2025_Trecho.csv')
+puts.batch_insert('raw_trecho', columns, 'data/raw/2025_Trecho.csv')
 
 #insert on raw_passagem
 columns = [
@@ -82,7 +82,7 @@ columns = [
     'hora_compra'
     ]
 
-#puts.batch_insert('raw_trecho', columns, 'data/raw/2025_Trecho.csv')
+puts.batch_insert('raw_passagem', columns, 'data/raw/2025_Passagem.csv')
 
 #insert on raw_pagamento
 columns = [
@@ -98,4 +98,4 @@ columns = [
     'valor'
     ]
 
-#puts.batch_insert('raw_trecho', columns, 'data/raw/2025_Trecho.csv')
+puts.batch_insert('raw_pagamento', columns, 'data/raw/2025_Pagamento.csv')
