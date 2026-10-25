@@ -7,7 +7,6 @@ import src.utils.postgresql_utils as puts
 #extracting data from raw tables and manipulating to put in silver tables
 #insertion of silver_passagem
 db_columns = [
-    'p.id_passagem',
     'v.id_viagem',
     'p.meio_transp',
     'p.origem_ida_pais',
@@ -26,7 +25,9 @@ offset = 0
 
 while True:
     query = f'''
-        SELECT {','.join(db_columns)} FROM raw_passagem
+        SELECT {','.join(db_columns)} FROM raw_passagem p
+        INNER JOIN raw_viagem v
+            ON v.id_viagem = p.id_viagem
         LIMIT 100000 OFFSET {offset};
         '''
     rows = puts.execute_dql(query)
