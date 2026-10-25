@@ -53,6 +53,7 @@ while True:
     del df_chunk, rows
 
 #changing Null values from db to NaN
+#df = pd.read_csv('./data/silver/silver_trecho.csv', sep=';', encoding='latin1')
 #df = df.replace(['NaN', 'nan', ''], float('nan'))
 #print(df.info())
 
