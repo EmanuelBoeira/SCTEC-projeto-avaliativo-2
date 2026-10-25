@@ -2,14 +2,7 @@ import sys
 sys.path.append('./')
 
 import src.utils.postgresql_utils as puts
-import pandas as pd
-
-#df = pd.read_csv('data/raw/2025_Viagem.csv', sep=';', encoding='latin1')
-#df = pd.read_csv('data/raw/2025_Trecho.csv', sep=';', encoding='latin1')
-#df = pd.read_csv('data/raw/2025_Passagem.csv', sep=';', encoding='latin1')
-#df = pd.read_csv('data/raw/2025_Pagamento.csv', sep=';', encoding='latin1')
-
-#print(df.info())
+#import pandas as pd
 
 #insert on raw_viagem
 columns = [

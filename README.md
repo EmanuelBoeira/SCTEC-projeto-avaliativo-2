@@ -27,8 +27,9 @@ Os dados foram obtidos pelos arquivos .csv pelo link: ... e foram inseridos no b
 
 # Forma de execução
 
-    Execute todos os scripts a partir o diretório raiz do projeto, como no exemplo a seguir:
+  Execute todos os scripts a partir o diretório raiz do projeto, como no exemplo a seguir:
 
-    `python src/scripts/create_tables.py` (cria as tabelas no Banco de Dados)
+  `python src/scripts/create_tables.py` (cria as tabelas no Banco de Dados)
+  
 
 # Sequência recomendada de execução
