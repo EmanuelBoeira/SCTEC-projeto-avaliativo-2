@@ -30,7 +30,9 @@ offset = 0
 
 while True:
     query = f'''
-        SELECT {','.join(db_columns)} FROM raw_viagem
+        SELECT {','.join(db_columns)} 
+        FROM raw_viagem
+        ORDER BY id_viagem
         LIMIT 100000 OFFSET {offset};
         '''
     rows = puts.execute_dql(query)

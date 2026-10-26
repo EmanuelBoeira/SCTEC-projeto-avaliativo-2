@@ -43,5 +43,4 @@ columns = [
     'numero_diarias'
     ]
 
-#verificar silver_viagem(id_viagem=20834461), ele existe no raw, mas não em silver_viagem
 puts.batch_insert('silver_trecho', columns, './data/silver/silver_trecho.csv')

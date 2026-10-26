@@ -20,9 +20,11 @@ offset = 0
 
 while True:
     query = f'''
-        SELECT {','.join(db_columns)} FROM raw_pagamento p
+        SELECT {','.join(db_columns)}
+        FROM raw_pagamento p
         INNER JOIN raw_viagem v
             ON v.id_viagem = p.id_viagem
+        ORDER BY v.id_viagem ASC
         LIMIT 100000 OFFSET {offset};
         '''
     rows = puts.execute_dql(query)
@@ -48,21 +50,3 @@ while True:
     print('lote gravado!')
     
     del df, rows
-
-#---------------
-#data converting
-#---------------
-
-#df = pd.read_csv('./data/silver/silver_pagamento.csv', sep=';', encoding='latin1')
-
-#changing Null values to NaN
-#df = df.replace(['NaN', 'nan', ''], float('nan'))
-
-#correction of type numeric
-#df ['id_pagamento'] = df['id_pagamento'].str.strip()
-#df ['valor'] = df['valor'].str.strip().str.replace(',', '.')
-    
-#df['id_pagamento'] = pd.to_numeric(df['id_pagamento'], errors='coerce')
-#df['valor'] = pd.to_numeric(df['valor'], errors='coerce')
-
-#df.to_csv('./data/silver/silver_pagamento.csv', sep=';', encoding='latin1', index=False)

@@ -25,9 +25,11 @@ offset = 0
 
 while True:
     query = f'''
-        SELECT {','.join(db_columns)} FROM raw_passagem p
+        SELECT {','.join(db_columns)}
+        FROM raw_passagem p
         INNER JOIN raw_viagem v
             ON v.id_viagem = p.id_viagem
+        ORDER BY v.id_viagem ASC
         LIMIT 100000 OFFSET {offset};
         '''
     rows = puts.execute_dql(query)
@@ -53,26 +55,3 @@ while True:
     print('lote gravado!')
     
     del df, rows
-
-#---------------
-#data converting
-#---------------
-
-#df = pd.read_csv('./data/silver/silver_passagem.csv', sep=';', encoding='latin1')
-
-#changing Null values to NaN
-#df = df.replace(['NaN', 'nan', ''], float('nan'))
-
-#correction of type datetime
-#df['data_compra'] = pd.to_datetime(df['data_compra'], format='%d/%m/%Y', errors='coerce')
-
-#correction of type numeric
-#df ['id_passagem'] = df['id_passagem'].str.strip()
-#df ['valor_passagem'] = df['valor_passagem'].str.strip().str.replace(',', '.')
-#df ['taxa_servico'] = df['taxa_servico'].str.strip().str.replace(',', '.')
-    
-#df['id_passagem'] = pd.to_numeric(df['id_passagem'], errors='coerce')
-#df['valor_passagem'] = pd.to_numeric(df['valor_passagem'], errors='coerce')
-#df['taxa_servico'] = pd.to_numeric(df['taxa_servico'], errors='coerce')
-
-#df.to_csv('./data/silver/silver_passagem.csv', sep=';', encoding='latin1', index=False)

@@ -24,9 +24,11 @@ offset = 0
 #todo: verificar a condição do inner join
 while True:
     query = f'''
-        SELECT {','.join(db_columns)} FROM raw_trecho t
+        SELECT {','.join(db_columns)} 
+        FROM raw_trecho t
         INNER JOIN raw_viagem v
             ON t.id_viagem = v.id_viagem
+        ORDER BY t.id_viagem ASC
         LIMIT 100000 OFFSET {offset};
         '''
 
@@ -51,15 +53,3 @@ while True:
     print('lote gravado')
 
     del df_chunk, rows
-
-#changing Null values from db to NaN
-df = pd.read_csv('./data/silver/silver_trecho.csv', sep=';', encoding='latin1')
-df = df.replace(['NaN', 'nan', ''], float('nan'))
-print(df.info())
-
-#nulls: 763349(total), t.origem_uf(748434), t.destino_uf(748425)
-
-#corrigir tipo:
-
-#df.to_csv('./data/silver/silver_trecho.csv', sep=';', encoding='latin1',  index=False)
-

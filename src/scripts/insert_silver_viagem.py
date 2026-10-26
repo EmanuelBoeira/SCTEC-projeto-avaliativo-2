@@ -9,8 +9,6 @@ df = pd.read_csv('./data/silver/silver_viagem.csv', sep=';', encoding='latin1')
 #changing Null values to NaN
 df = df.replace(['NaN', 'nan', ''], float('nan'))
 
-print(df[df['id_viagem'] == 20834461])
-
 #duplicates
 #print(df.duplicated().sum()) #99991 duplicatas
 df.drop_duplicates(inplace=True)
@@ -18,8 +16,8 @@ df.drop_duplicates(inplace=True)
 #cargo(127931 ausentes): preencher com 'desconhecido'
 df['cargo'].fillna('desconhecido', inplace=True)
 
-#motivo(1 ausente) : remover linha ausente
-df.dropna(subset='motivo', inplace=True)
+#motivo(1 ausente) : substituir por 'desconhecido'
+df['motivo'].fillna('desconhecido', inplace=True)
 
 #correction of type datetime
 df['data_inicio'] = pd.to_datetime(df['data_inicio'], format='%d/%m/%Y', errors='coerce')

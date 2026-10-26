@@ -138,7 +138,7 @@ CREATE TABLE silver_pagamento(
 	num_proposta  VARCHAR(20),
 	nome_orgao_pagador VARCHAR(255),
 	nome_ug_pagadora VARCHAR(255),
-	tipo_pagamento VARCHAR(20) NOT NULL,
+	tipo_pagamento VARCHAR(50) NOT NULL,
 	valor DECIMAL(10,2) CHECK (valor >= 0)
 );
 
