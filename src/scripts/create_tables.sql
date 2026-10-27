@@ -31,7 +31,7 @@ CREATE TABLE raw_viagem(
 );
 
 CREATE TABLE raw_trecho(
-	id_trecho VARCHAR(20),
+	id_viagem VARCHAR(20),
 	num_proposta VARCHAR(20),
 	sequencia_trecho VARCHAR(20),
 	origem_data VARCHAR(30),
@@ -48,7 +48,7 @@ CREATE TABLE raw_trecho(
 );
 
 CREATE TABLE raw_passagem(
-	id_passagem VARCHAR(20),
+	id_viagem VARCHAR(20),
 	num_proposta VARCHAR(20),
 	meio_transp VARCHAR(50),
 	origem_ida_pais VARCHAR(60),
@@ -70,7 +70,7 @@ CREATE TABLE raw_passagem(
 );
 
 CREATE TABLE raw_pagamento(
-	id_pagamento VARCHAR(20),
+	id_viagem VARCHAR(20),
 	num_proposta VARCHAR(20),
 	cod_orgao_superior VARCHAR(20),
 	nome_orgao_superior VARCHAR(255),
@@ -138,7 +138,7 @@ CREATE TABLE silver_pagamento(
 	num_proposta  VARCHAR(20),
 	nome_orgao_pagador VARCHAR(255),
 	nome_ug_pagadora VARCHAR(255),
-	tipo_pagamento VARCHAR(20) NOT NULL,
+	tipo_pagamento VARCHAR(50) NOT NULL,
 	valor DECIMAL(10,2) CHECK (valor >= 0)
 );
 

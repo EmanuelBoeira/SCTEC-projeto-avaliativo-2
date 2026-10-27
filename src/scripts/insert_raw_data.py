@@ -34,7 +34,7 @@ puts.batch_insert('raw_viagem', columns, 'data/raw/2025_Viagem.csv')
 
 #insert on raw_trecho
 columns = [
-    'id_trecho',
+    'id_viagem',
     'num_proposta',
     'sequencia_trecho',
     'origem_data',
@@ -54,7 +54,7 @@ puts.batch_insert('raw_trecho', columns, 'data/raw/2025_Trecho.csv')
 
 #insert on raw_passagem
 columns = [
-    'id_passagem',
+    'id_viagem',
     'num_proposta',
     'meio_transp',
     'origem_ida_pais',
@@ -79,7 +79,7 @@ puts.batch_insert('raw_passagem', columns, 'data/raw/2025_Passagem.csv')
 
 #insert on raw_pagamento
 columns = [
-    'id_pagamento',
+    'id_viagem',
     'num_proposta',
     'cod_orgao_superior',
     'nome_orgao_superior',
