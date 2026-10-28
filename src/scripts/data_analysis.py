@@ -25,15 +25,14 @@ columns = [
 query = '''
     SELECT cod_orgao_superior, nome_orgao_superior, valor_total
     FROM silver_viagem
-    ORDER BY valor_total DESC
-    LIMIT 5;
+    ORDER BY valor_total DESC;
     '''
 
 df = pd.DataFrame(puts.execute_dql(query), columns=columns)
 
 print('-'*70)
 print('Quais os 5 orgãos com maior custo total?\n')
-print(df[[columns[1], columns[2]]])
+print(df[[columns[1], columns[2]]].head())
 print('-'*70)
 
 columns.clear()
@@ -59,15 +58,14 @@ query = '''
         p.pais_destino_ida,
         p.uf_destino_ida,
         p.cidade_destino_ida
-    ORDER BY media_valor DESC
-    LIMIT 3;
+    ORDER BY media_valor DESC;
     '''
 
 df = pd.DataFrame(puts.execute_dql(query), columns=columns)
 
 print('-'*50)
 print('Quais os 3 destinos com maior custo médio por viagem?\n')
-print(df[[columns[0], columns[3]]])
+print(df[[columns[0], columns[3]]].head(3))
 print('-'*50)
 
 columns.clear()
@@ -82,15 +80,14 @@ columns = [
 query = '''
     SELECT id_viagem, valor_total, duracao_dias
     FROM silver_viagem
-    ORDER BY duracao_dias DESC
-    LIMIT 1;
+    ORDER BY duracao_dias DESC;
     '''
 
 df = pd.DataFrame(puts.execute_dql(query), columns=columns)
 
 print('-'*50)
 print('Qual a viagem com maior duração e seu custo total?\n')
-print(df) #verificar valores
+print(df.head(1)) #verificar valores
 print('-'*50)
 
 columns.clear()
@@ -100,27 +97,28 @@ columns.clear()
 #---------------------
 
 #defines a figure with 2 lines and 2 elements in each line
-fig, ax = plt.subplots(4)
+fig, ax = plt.subplots(4, constrained_layout = True)
+fig.set_facecolor('0.9')
 
 #Qual o tipo de pagamento com maior valor médio?
 query = '''
     SELECT tipo_pagamento, AVG(valor) as valor_medio
     FROM silver_pagamento
     GROUP BY tipo_pagamento
-    ORDER BY valor_medio;
+    ORDER BY valor_medio DESC;
     '''
 
-results = puts.execute_dql(query)
+results = puts.execute_dql(query)[:5][::-1]
 
-x = [result[0] for result in results[:5]] 
-y = [result[1] for result in results[:5]] 
+x = [result[0].upper() for result in results]
+y = [result[1] for result in results]
 
 results.clear()
 
 ax[0].barh(x, y)
 ax[0].set_title('Qual o tipo de pagamento com maior valor médio?')
 ax[0].set_xlabel('Valor médio (R$)')
-ax[0].set_ylabel('Tipo de pagamentos')
+#ax[0].set_ylabel('Tipo de pagamentos')
 
 results.clear()
 x.clear()
@@ -131,18 +129,18 @@ query = '''
     SELECT meio_transporte, COUNT(meio_transporte) AS vezes_usado
     FROM silver_trecho
     GROUP BY meio_transporte
-    ORDER BY vezes_usado;
+    ORDER BY vezes_usado DESC;
     '''
 
-results = puts.execute_dql(query)
+results = puts.execute_dql(query)[:5][::-1]
 
-x = [result[0] for result in results[:5]] 
-y = [result[1] for result in results[:5]] 
+x = [result[0] for result in results]
+y = [result[1] for result in results]
 
 ax[1].barh(x, y)
 ax[1].set_title('Qual o meio de teansporte mais usado nos trechos?')
 ax[1].set_xlabel('Quant. de vezes usado')
-ax[1].set_ylabel('Meios de transporte')
+#ax[1].set_ylabel('Meios de transporte')
 
 results.clear()
 x.clear()
@@ -156,15 +154,15 @@ query = '''
     ORDER BY vezes_repetido DESC;
     '''
 
-results = puts.execute_dql(query)
+results = puts.execute_dql(query)[:5][::-1]
 
-x = [result[0] for result in results[:5]] 
-y = [result[1] for result in results[:5]] 
+x = [result[0] for result in results] 
+y = [result[1] for result in results] 
 
 ax[2].barh(x, y)
 ax[2].set_title('Qual UF de destino mais aparece nos trechos?')
 ax[2].set_xlabel('Quant. de vezes que aparece')
-ax[2].set_ylabel('UF - Unidades Federativas')
+#ax[2].set_ylabel('UF - Unidades Federativas')
 
 results.clear()
 x.clear()
@@ -178,18 +176,19 @@ query = '''
     ORDER BY soma_valor DESC;
     '''
 
-results = puts.execute_dql(query)
+results = puts.execute_dql(query)[:5][::-1]
 
-x = [result[0] for result in results[:5]] 
-y = [result[1] for result in results[:5]] 
+x = [result[0] for result in results] 
+y = [result[1] for result in results] 
 
 ax[3].barh(x, y)
 ax[3].set_title('Qual orgão pagou mais no total?')
 ax[3].set_xlabel('Valor pago (R$)')
-ax[3].set_ylabel('Nome do orgão pagador')
+#ax[3].set_ylabel('Nome do orgão pagador')
 
 results.clear()
 x.clear()
 y.clear()
+
 
 plt.show()
