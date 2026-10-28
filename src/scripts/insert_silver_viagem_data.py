@@ -8,6 +8,7 @@ import src.utils.postgresql_utils as puts
 #insertion of silver_viagem
 db_columns = [
     'id_viagem',
+    'num_proposta',
     'situacao',
     'urgente',
     'cod_orgao_superior',
@@ -29,7 +30,9 @@ offset = 0
 
 while True:
     query = f'''
-        SELECT {','.join(db_columns)} FROM raw_viagem
+        SELECT {','.join(db_columns)} 
+        FROM raw_viagem
+        ORDER BY id_viagem
         LIMIT 100000 OFFSET {offset};
         '''
     rows = puts.execute_dql(query)
@@ -56,34 +59,54 @@ while True:
     
     del df, rows
 
-#---------------
-#data converting
-#---------------
+#----------------
+# Data convertion
+#----------------
 
 df = pd.read_csv('./data/silver/silver_viagem.csv', sep=';', encoding='latin1')
 
 #changing Null values to NaN
 df = df.replace(['NaN', 'nan', ''], float('nan'))
 
+#duplicates
+#print(df.duplicated().sum()) #99991 duplicatas
+df.drop_duplicates(inplace=True)
+
 #cargo(127931 ausentes): preencher com 'desconhecido'
 df['cargo'].fillna('desconhecido', inplace=True)
 
-#motivo(1 ausente) : remover linha ausente
-df.dropna(subset='motivo', inplace=True)
+#motivo(1 ausente) : substituir por 'desconhecido'
+df['motivo'].fillna('desconhecido', inplace=True)
 
 #correction of type datetime
 df['data_inicio'] = pd.to_datetime(df['data_inicio'], format='%d/%m/%Y', errors='coerce')
 df['data_fim'] = pd.to_datetime(df['data_fim'], format='%d/%m/%Y', errors='coerce')
 
 #correction of type numeric
-df ['valor_diarias'] = df['valor_diarias'].str.strip().str.replace(',', '.')
-df ['valor_passagens'] = df['valor_passagens'].str.strip().str.replace(',', '.')
-df ['valor_devolucao'] = df['valor_devolucao'].str.strip().str.replace(',', '.')
-df ['valor_outros'] = df['valor_outros'].str.strip().str.replace(',', '.')
-    
-df['valor_diarias'] = pd.to_numeric(df['valor_diarias'], errors='coerce')
-df['valor_passagens'] = pd.to_numeric(df['valor_passagens'], errors='coerce')
-df['valor_devolucao'] = pd.to_numeric(df['valor_devolucao'], errors='coerce')
-df['valor_outros'] = pd.to_numeric(df['valor_outros'], errors='coerce')
+df['valor_diarias'] = pd.to_numeric(df['valor_diarias'].astype('string').str.strip().str.replace(',','.'), errors='coerce')
+df['valor_passagens'] = pd.to_numeric(df['valor_passagens'].astype('string').str.strip().str.replace(',','.'), errors='coerce')
+df['valor_devolucao'] = pd.to_numeric(df['valor_devolucao'].astype('string').str.strip().str.replace(',','.'), errors='coerce')
+df['valor_outros'] = pd.to_numeric(df['valor_outros'].astype('string').str.strip().str.replace(',','.'), errors='coerce')
 
 df.to_csv('./data/silver/silver_viagem.csv', sep=';', encoding='latin1', index=False)
+
+columns = [
+    'id_viagem',
+    'num_proposta',
+    'situacao',
+    'viagem_urgente',
+    'cod_orgao_superior',
+    'nome_orgao_superior',
+    'nome_viajante',
+    'cargo',
+    'data_inicio',
+    'data_fim',
+    'destinos',
+    'motivo',
+    'valor_diarias',
+    'valor_passagens',
+    'valor_devolucao',
+    'valor_outros_gastos'
+    ]
+
+puts.batch_insert('silver_viagem', columns, './data/silver/silver_viagem.csv')

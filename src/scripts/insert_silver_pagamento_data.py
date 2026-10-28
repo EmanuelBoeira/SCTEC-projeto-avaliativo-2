@@ -7,7 +7,6 @@ import src.utils.postgresql_utils as puts
 #extracting data from raw tables and manipulating to put in silver tables
 #insertion of silver_pagamento
 db_columns = [
-    'p.id_pagamento',
     'v.id_viagem',
     'p.num_proposta',
     'p.nome_orgao_pagador',
@@ -21,7 +20,11 @@ offset = 0
 
 while True:
     query = f'''
-        SELECT {','.join(db_columns)} FROM raw_viagem
+        SELECT {','.join(db_columns)}
+        FROM raw_pagamento p
+        INNER JOIN raw_viagem v
+            ON v.id_viagem = p.id_viagem
+        ORDER BY v.id_viagem ASC
         LIMIT 100000 OFFSET {offset};
         '''
     rows = puts.execute_dql(query)
@@ -48,20 +51,31 @@ while True:
     
     del df, rows
 
-#---------------
-#data converting
-#---------------
+#----------------
+# Data convertion
+#----------------
 
-#df = pd.read_csv('./data/silver/silver_pagamento.csv', sep=';', encoding='latin1')
+df = pd.read_csv('./data/silver/silver_pagamento.csv', sep=';', encoding='latin1')
 
 #changing Null values to NaN
-#df = df.replace(['NaN', 'nan', ''], float('nan'))
+df = df.replace(['NaN', 'nan', ''], float('nan'))
 
-#correction of type numeric
-#df ['id_pagamento'] = df['id_pagamento'].str.strip()
-#df ['valor'] = df['valor'].str.strip().str.replace(',', '.')
-    
-#df['id_pagamento'] = pd.to_numeric(df['id_pagamento'], errors='coerce')
-#df['valor'] = pd.to_numeric(df['valor'], errors='coerce')
+#remove duplicates
+#print(df.duplicated().sum()) #99991 duplicatas
+df.drop_duplicates(inplace=True)
 
-#df.to_csv('./data/silver/silver_pagamento.csv', sep=';', encoding='latin1', index=False)
+#have no null values
+df['p.valor'] = pd.to_numeric(df['p.valor'].astype('string').str.strip().str.replace(',','.'), errors='coerce')
+
+df.to_csv('./data/silver/silver_pagamento.csv', sep=';', encoding='latin1', index=False)
+
+columns = [
+    'id_viagem',
+    'num_proposta',
+    'nome_orgao_pagador',
+    'nome_ug_pagadora',
+    'tipo_pagamento',
+    'valor'
+    ]
+
+puts.batch_insert('silver_pagamento', columns, './data/silver/silver_pagamento.csv')

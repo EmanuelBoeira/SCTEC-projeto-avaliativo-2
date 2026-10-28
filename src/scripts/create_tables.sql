@@ -94,7 +94,7 @@ CREATE TABLE silver_viagem(
 	num_proposta VARCHAR(20),
 	situacao VARCHAR(50),
 	viagem_urgente VARCHAR(5),
-	cod_orgao_superior VARCHAR(20),
+	cod_orgao_superior VARCHAR(50),
 	nome_orgao_superior VARCHAR(255) NOT NULL,
 	nome_viajante VARCHAR(255),
 	cargo VARCHAR(255),
