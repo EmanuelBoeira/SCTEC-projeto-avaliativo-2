@@ -2,7 +2,6 @@ import sys
 sys.path.append('./')
 
 import src.utils.postgresql_utils as puts
-#import pandas as pd
 
 #insert on raw_viagem
 columns = [

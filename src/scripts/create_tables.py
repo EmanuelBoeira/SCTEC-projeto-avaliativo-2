@@ -1,7 +1,5 @@
 import sys
 sys.path.append('./')
-#sys.path.append('./src/utils/')
-#sys.path.append('./src/scripts/')
 
 import src.utils.postgresql_utils as puts
 
