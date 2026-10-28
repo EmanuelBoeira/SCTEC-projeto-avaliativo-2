@@ -4,78 +4,97 @@ sys.path.append('./')
 import pandas as pd
 import src.utils.postgresql_utils as puts
 
-#extracting data from raw tables and manipulating to put in silver tables
-#insertion of silver_pagamento
-db_columns = [
-    'v.id_viagem',
-    'p.num_proposta',
-    'p.nome_orgao_pagador',
-    'p.nome_un_gestora_pagadora',
-    'p.tipo_pagamento',
-    'p.valor'
-    ]
+def insert_silver_pagamento() -> None:
+    '''
+    Reads data from raw_pagamento, creates a csv file in ./data/silver/
+    and inserts this cleaned data on silver_pagamento.
 
-#execute the query in chunks of 100000 lines to not overload RAM
-offset = 0
+    Args:
+        None
 
-while True:
-    query = f'''
-        SELECT {','.join(db_columns)}
-        FROM raw_pagamento p
-        INNER JOIN raw_viagem v
-            ON v.id_viagem = p.id_viagem
-        ORDER BY v.id_viagem ASC
-        LIMIT 100000 OFFSET {offset};
-        '''
-    rows = puts.execute_dql(query)
+    Retuens:
+        bool
+    '''
+    try:
+        #extracting data from raw tables and manipulating to put in silver tables
+        #insertion of silver_pagamento
+        db_columns = [
+            'v.id_viagem',
+            'p.num_proposta',
+            'p.nome_orgao_pagador',
+            'p.nome_un_gestora_pagadora',
+            'p.tipo_pagamento',
+            'p.valor'
+            ]
 
-    if not rows:
-        break
+        #execute the query in chunks of 100000 lines to not overload RAM
+        offset = 0
 
-    #creates a dataframe from the query above
-    df = pd.DataFrame(rows, columns=db_columns)
+        while True:
+            query = f'''
+                SELECT {','.join(db_columns)}
+                FROM raw_pagamento p
+                INNER JOIN raw_viagem v
+                    ON v.id_viagem = p.id_viagem
+                ORDER BY v.id_viagem ASC
+                LIMIT 100000 OFFSET {offset};
+                '''
+            rows = puts.execute_dql(query)
 
-    #creates and append data from the chunk
-    df.to_csv(
-        './data/silver/silver_pagamento.csv',
-        mode='w' if offset == 0 else 'a',
-        sep=';',
-        encoding='latin1',
-        index=False,
-        header= True if offset == 0 else False
-    )
+            if not rows:
+                break
 
-    offset += 100000
+            #creates a dataframe from the query above
+            df = pd.DataFrame(rows, columns=db_columns)
 
-    print('lote gravado!')
-    
-    del df, rows
+            #creates and append data from the chunk
+            df.to_csv(
+                './data/silver/silver_pagamento.csv',
+                mode='w' if offset == 0 else 'a',
+                sep=';',
+                encoding='latin1',
+                index=False,
+                header= True if offset == 0 else False
+            )
 
-#----------------
-# Data convertion
-#----------------
+            offset += 100000
 
-df = pd.read_csv('./data/silver/silver_pagamento.csv', sep=';', encoding='latin1')
+            print('lote gravado!')
+            
+            del df, rows
 
-#changing Null values to NaN
-df = df.replace(['NaN', 'nan', ''], float('nan'))
+        #----------------
+        # Data convertion
+        #----------------
 
-#remove duplicates
-#print(df.duplicated().sum()) #99991 duplicatas
-df.drop_duplicates(inplace=True)
+        df = pd.read_csv('./data/silver/silver_pagamento.csv', sep=';', encoding='latin1')
 
-#have no null values
-df['p.valor'] = pd.to_numeric(df['p.valor'].astype('string').str.strip().str.replace(',','.'), errors='coerce')
+        #changing Null values to NaN
+        df = df.replace(['NaN', 'nan', ''], float('nan'))
 
-df.to_csv('./data/silver/silver_pagamento.csv', sep=';', encoding='latin1', index=False)
+        #remove duplicates
+        #print(df.duplicated().sum()) #99991 duplicatas
+        df.drop_duplicates(inplace=True)
 
-columns = [
-    'id_viagem',
-    'num_proposta',
-    'nome_orgao_pagador',
-    'nome_ug_pagadora',
-    'tipo_pagamento',
-    'valor'
-    ]
+        #have no null values
+        df['p.valor'] = pd.to_numeric(df['p.valor'].astype('string').str.strip().str.replace(',','.'), errors='coerce')
 
-puts.batch_insert('silver_pagamento', columns, './data/silver/silver_pagamento.csv')
+        df.to_csv('./data/silver/silver_pagamento.csv', sep=';', encoding='latin1', index=False)
+
+        columns = [
+            'id_viagem',
+            'num_proposta',
+            'nome_orgao_pagador',
+            'nome_ug_pagadora',
+            'tipo_pagamento',
+            'valor'
+            ]
+
+        puts.batch_insert('silver_pagamento', columns, './data/silver/silver_pagamento.csv')
+
+        return True
+
+    except Exception as e:
+        print(f'\n{e}\n')
+
+        return False
