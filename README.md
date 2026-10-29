@@ -17,7 +17,7 @@ Os dados foram obtidos pelos arquivos .csv pelo link: ... e foram inseridos no b
   - O arquivo .env-example é um exemplo  de como o .env deve ser preenchido (use os valores correspondentes à sua máquina)
   - Este projeto cria as tabelas no Banco de Dados, mas não o cria, então execute `CREATE DATABASE db_name` antes dos scripts
 
-## Objetivo do projeto
+# Objetivo do projeto
 
   O projeto busca analisar dados brutos desponibilizados em arquivo csv e reponder as seguintes perguntas:
 
