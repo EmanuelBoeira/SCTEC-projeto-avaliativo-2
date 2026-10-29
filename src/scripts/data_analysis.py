@@ -110,7 +110,7 @@ def data_analysis() -> bool:
         #---------------------
 
         #defines a figure with 2 lines and 2 elements in each line
-        fig, ax = plt.subplots(4, constrained_layout = True)
+        fig, ax = plt.subplots(4, figsize=(12,14), constrained_layout = True)
         fig.set_facecolor('0.9')
 
         #Qual o tipo de pagamento com maior valor médio?
@@ -203,6 +203,7 @@ def data_analysis() -> bool:
         x.clear()
         y.clear()
 
+        plt.savefig('./outputs/plots-analysis.png')
 
         plt.show()
 

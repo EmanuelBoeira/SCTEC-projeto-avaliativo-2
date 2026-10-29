@@ -75,20 +75,20 @@ Os dados foram obtidos pelos arquivos .csv pelo link: ... e foram inseridos no b
 
   - Qual o tipo de pagamento com maior custo médio?
 
-    - Pelo primeiro gráfico é possível perceber que PASSAGEM é o meior custo médio.
+    Pelo primeiro gráfico é possível perceber que PASSAGEM é o meior custo médio.
 
 
   - Qual o meio de transporte mais usado em trechos?
 
-    - Pelo segundo gráfico é possível perceber que VEÍCULO PRÍPRIO é o meio de transporte mais usado nos trechos.
+    Pelo segundo gráfico é possível perceber que VEÍCULO PRÍPRIO é o meio de transporte mais usado nos trechos.
 
 
   - Qual UF de destino aparece mais em trechos?
 
-    - Pelo terceiro gráfico é possível perceber que Destrito Federal é a UF que mais aparece em trechos.
+    Pelo terceiro gráfico é possível perceber que Destrito Federal é a UF que mais aparece em trechos.
 
 
   - Qual órgão pagou mais no total?
 
-    - Pelo quarto gráfico é possível perceber que o órgão sigiloso tem o maior custo total, mas essa opção pode 
+    Pelo quarto gráfico é possível perceber que o órgão sigiloso tem o maior custo total, mas essa opção pode 
     representar mais de um órgão, então o órgão com maior custo total é o FUNDO NACIONAL DE SEGURANÇA.
