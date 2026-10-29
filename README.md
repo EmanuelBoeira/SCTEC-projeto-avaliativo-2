@@ -52,11 +52,14 @@ Os dados foram obtidos pelos arquivos .csv pelo link: ... e foram inseridos no b
 
 # Resultado da análise
 
-  - Quais os 5 órgãos com maior curto total?
+  - Quais os 5 órgãos com maior custo total?
 
-    - Ministério da defesa - gastou R$ 261.287,40
-    - Ministério de minas e energia - gastou R$ 245.852,80
-    - Ministério da justiça e segurança pública - gastou R$ 216.728,36
+    - Ministério da justiça e segurança pública - gastou R$ 490.813.474,85
+    - Ministério da defesa - gastou R$ 157.059.698,59
+    - Ministério da Educação - gastou R$ 112.519.456,96
+    - Ministério do Meio Ambiente e Mudança do Clima - gastou R$ 50.548.377,44
+    - Ministério da Previdência Social - gastou R$ 40.921.476,10
+
 
   - Quais os 3 destinos com maior custo médio por viagem?
 
@@ -64,11 +67,28 @@ Os dados foram obtidos pelos arquivos .csv pelo link: ... e foram inseridos no b
     - China - custo de R$ 112.870,41
     - Estados Unidos da América - custo de R$ 86.678,04
 
+
   - Qual a viagem com maior duração e seu custo?
 
     - viagem com id = 20699856 - duração de 383 dias
 
+
   - Qual o tipo de pagamento com maior custo médio?
+
+    - Pelo primeiro gráfico é possível perceber que PASSAGEM é o meior custo médio.
+
+
   - Qual o meio de transporte mais usado em trechos?
+
+    - Pelo segundo gráfico é possível perceber que VEÍCULO PRÍPRIO é o meio de transporte mais usado nos trechos.
+
+
   - Qual UF de destino aparece mais em trechos?
+
+    - Pelo terceiro gráfico é possível perceber que Destrito Federal é a UF que mais aparece em trechos.
+
+
   - Qual órgão pagou mais no total?
+
+    - Pelo quarto gráfico é possível perceber que o órgão sigiloso tem o maior custo total, mas essa opção pode 
+    representar mais de um órgão, então o órgão com maior custo total é o FUNDO NACIONAL DE SEGURANÇA.

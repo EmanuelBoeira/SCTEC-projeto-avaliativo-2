@@ -35,9 +35,10 @@ def data_analysis() -> bool:
             ]
 
         query = '''
-            SELECT cod_orgao_superior, nome_orgao_superior, valor_total
+            SELECT cod_orgao_superior, nome_orgao_superior, SUM(valor_total) AS soma
             FROM silver_viagem
-            ORDER BY valor_total DESC;
+            GROUP BY cod_orgao_superior, nome_orgao_superior
+            ORDER BY soma DESC;
             '''
 
         df = pd.DataFrame(puts.execute_dql(query), columns=columns)
