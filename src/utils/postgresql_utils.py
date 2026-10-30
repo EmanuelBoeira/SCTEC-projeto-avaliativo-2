@@ -4,31 +4,6 @@ sys.path.append('./')
 import psycopg2
 from config import POSTGRESQL_CONFIG
 
-def connect_postgresql_db() -> psycopg2.connect():
-
-    '''
-    Function to connect on database configurated in config file.
-    '''
-
-    try:
-        conn = psycopg2.connect(
-            host = POSTGRESQL_CONFIG['host'],
-            port = POSTGRESQL_CONFIG['port'],
-            dbname = POSTGRESQL_CONFIG['dbname'],
-            user = POSTGRESQL_CONFIG['user'],
-            password = POSTGRESQL_CONFIG['password']
-        )
-
-        return conn
-        
-    except Exception as e:
-        print(e)
-        conn.close()
-        return None
-
-    #finally:
-     #   conn.close()
-
 def execute_ddl(query:str) -> None:
 
     '''
@@ -117,6 +92,8 @@ def batch_insert(table_name:str, db_columns:list, csv_file:str):
 
     try:
         with open(csv_file, 'r', encoding='latin1', newline='') as file:
+
+            #print(file.readline())
 
             cur.copy_expert(
                 f'''

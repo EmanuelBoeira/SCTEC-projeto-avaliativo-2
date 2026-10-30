@@ -1,16 +1,33 @@
 import sys
 sys.path.append('./')
-#sys.path.append('./src/utils/')
-#sys.path.append('./src/scripts/')
 
 import src.utils.postgresql_utils as puts
 
-with open('./src/scripts/create_tables.sql', 'r', encoding='utf-8') as file:
-    file_content = file.read()
+def create_tables() -> bool:
+    '''
+    Creates 8 tables on database defined in dotenv file. 4 tables raw and 4 tables silver.
 
-commands = file_content.split(';')
+    Args:
+        None
 
-for command in commands:
-    command.strip()
-    if command:
-        puts.execute_ddl(command)
+    Returns:
+        bool
+    '''
+
+    try:
+        with open('./src/scripts/create_tables.sql', 'r', encoding='utf-8') as file:
+            file_content = file.read()
+
+        commands = file_content.split(';')
+
+        for command in commands:
+            command.strip()
+            if command:
+                puts.execute_ddl(command)
+
+        return True
+
+    except Exception as e:
+        print(f'\n{e}\n')
+
+        return False
