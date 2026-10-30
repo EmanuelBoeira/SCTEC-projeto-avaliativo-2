@@ -57,9 +57,12 @@ Os dados foram obtidos pelos arquivos .csv pelo link: https://drive.google.com/d
 
 # Sequência recomendada de execução no script main.py
 
-  Após executar o `main.py` digite os comandos em ordem crescente 1 -> 2 -> 3 -> 4 -> 5 ou digite 6 e aperte Enter. 
-  OBS.: As etapas 2 e 3 do script main.py costuma demorar alguns segundos para finalizar sua execução devido à manipulação e incersão de dados.
-  Ao selecionar a opção 5, um arquivo plots-analysis.png será criado ou sobreescrito em ./outputs/
+  Após executar o `main.py` digite os comandos em ordem crescente 1 -> 2 -> 3 -> 4 -> 5 ou digite 6 e aperte Enter.
+
+  OBS.: 
+  - As etapas 2 e 3 do script main.py costuma demorar alguns segundos para finalizar sua execução devido à manipulação e incersão de dados.
+
+  - Ao selecionar a opção 5, um arquivo plots-analysis.png será criado ou sobreescrito em ./outputs/
 
 
 # Resultado da análise
