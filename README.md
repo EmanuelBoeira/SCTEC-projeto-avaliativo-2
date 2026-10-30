@@ -42,7 +42,11 @@ Os dados foram obtidos pelos arquivos .csv pelo link: https://drive.google.com/d
 
 # Forma de execução
 
-  Antes de executar qualquer script, certifique-se de instalar as dependências, criar o Banco de Dados e inserir os seus valores no arquvo .env criado como no exemplo .env-example.
+  Antes de executar qualquer script, certifique-se de instalar as dependências, criar o Banco de Dados e inserir os seus valores no arquvo .env criado como no exemplo .env-example. 
+
+  É necessário criar os diretórios ./data ./data/raw/ e ./data/silver/ 
+
+  Os arquivos .csv brutos devem ser colocados em ./data/raw/
 
   Evite executar os scripts em ./src/scripts/ individualmente, pois a ordem da execução pode influenciar os resultados.
 
