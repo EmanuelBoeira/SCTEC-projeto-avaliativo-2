@@ -7,11 +7,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 #TODO:
-# - criar views ao invez de mostrar dados por df
-# - conferir os limit, pois eles podem estar diminuindo as consultas ao invez de mostrar os primeiros valores
 # - deixar o plot mais bonito
 
-def data_analysis() -> bool:
+def show_analysis() -> bool:
     '''
     Prints and plot the analysis that answers the projects questions.
 
@@ -23,10 +21,6 @@ def data_analysis() -> bool:
     '''
 
     try:
-        #--------------
-        #SQL questions:
-        #--------------
-
         #Quais os 5 orgãos com maior custo total?
         columns = [
             'CÓD. ORGÃO SUPERIOR',
@@ -35,10 +29,7 @@ def data_analysis() -> bool:
             ]
 
         query = '''
-            SELECT cod_orgao_superior, nome_orgao_superior, SUM(valor_total) AS soma
-            FROM silver_viagem
-            GROUP BY cod_orgao_superior, nome_orgao_superior
-            ORDER BY soma DESC;
+            SELECT * FROM gold_orgao_custo;
             '''
 
         df = pd.DataFrame(puts.execute_dql(query), columns=columns)
@@ -59,19 +50,7 @@ def data_analysis() -> bool:
             ]
 
         query = '''
-            SELECT 
-                p.pais_destino_ida,
-                p.uf_destino_ida,
-                p.cidade_destino_ida,
-                ROUND(AVG(v.valor_total), 2) AS media_valor
-            FROM silver_viagem v
-            INNER JOIN silver_passagem p
-                ON v.id_viagem = p.id_viagem
-            GROUP BY 
-                p.pais_destino_ida,
-                p.uf_destino_ida,
-                p.cidade_destino_ida
-            ORDER BY media_valor DESC;
+            SELECT * FROM gold_custo_viagem;
             '''
 
         df = pd.DataFrame(puts.execute_dql(query), columns=columns)
@@ -91,9 +70,7 @@ def data_analysis() -> bool:
             ]
 
         query = '''
-            SELECT id_viagem, valor_total, duracao_dias
-            FROM silver_viagem
-            ORDER BY duracao_dias DESC;
+            SELECT * FROM gold_maior_duracao;
             '''
 
         df = pd.DataFrame(puts.execute_dql(query), columns=columns)
@@ -115,18 +92,13 @@ def data_analysis() -> bool:
 
         #Qual o tipo de pagamento com maior valor médio?
         query = '''
-            SELECT tipo_pagamento, AVG(valor) as valor_medio
-            FROM silver_pagamento
-            GROUP BY tipo_pagamento
-            ORDER BY valor_medio DESC;
+            SELECT * FROM gold_tipo_pagamento;
             '''
 
         results = puts.execute_dql(query)[:5][::-1]
 
         x = [result[0].upper() for result in results]
         y = [result[1] for result in results]
-
-        results.clear()
 
         ax[0].barh(x, y)
         ax[0].set_title('Qual o tipo de pagamento com maior valor médio?')
@@ -139,10 +111,7 @@ def data_analysis() -> bool:
 
         #Qual o meio de teansporte mais usado nos trechos?
         query = '''
-            SELECT meio_transporte, COUNT(meio_transporte) AS vezes_usado
-            FROM silver_trecho
-            GROUP BY meio_transporte
-            ORDER BY vezes_usado DESC;
+            SELECT * FROM gold_transporte_trecho;
             '''
 
         results = puts.execute_dql(query)[:5][::-1]
@@ -161,10 +130,7 @@ def data_analysis() -> bool:
 
         #Qual UF de destino mais aparece nos trechos?
         query = '''
-            SELECT destino_uf, COUNT(destino_uf) AS vezes_repetido
-            FROM silver_trecho
-            GROUP BY destino_uf
-            ORDER BY vezes_repetido DESC;
+            SELECT * FROM gold_UF_trecho;
             '''
 
         results = puts.execute_dql(query)[:5][::-1]
@@ -183,10 +149,7 @@ def data_analysis() -> bool:
 
         #Qual orgão pagou mais no total?
         query = '''
-            SELECT nome_orgao_pagador, SUM(valor) AS soma_valor
-            FROM silver_pagamento
-            GROUP BY nome_orgao_pagador
-            ORDER BY soma_valor DESC;
+            SELECT * FROM gold_orgao_gastou;
             '''
 
         results = puts.execute_dql(query)[:5][::-1]
