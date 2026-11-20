@@ -1,5 +1,5 @@
-import sys
-sys.path.append('./')
+#import sys
+#sys.path.append('./')
 
 import src.utils.postgresql_utils as puts
 
@@ -15,7 +15,7 @@ def create_tables() -> bool:
     '''
 
     try:
-        with open('./src/scripts/create_tables.sql', 'r', encoding='utf-8') as file:
+        with open('0_criar_tabelas.sql', 'r', encoding='utf-8') as file:
             file_content = file.read()
 
         commands = file_content.split(';')
