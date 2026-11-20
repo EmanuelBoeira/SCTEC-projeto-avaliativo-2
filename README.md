@@ -53,6 +53,7 @@ Os dados foram obtidos pelos arquivos .csv pelo link: https://drive.google.com/d
   - psycopg2
   - pandas
   - matplotlib
+  - gdown
 
 
 # Forma de execução
@@ -65,23 +66,15 @@ Os dados foram obtidos pelos arquivos .csv pelo link: https://drive.google.com/d
 
   -  É necessário criar os diretórios ./data ./data/raw/ e ./data/silver/ 
 
-  -  Os arquivos .csv brutos devem ser colocados em ./data/raw/
-
   -  Evite executar os scripts em ./src/scripts/ individualmente, pois a ordem da execução pode influenciar os resultados.
 
-  Execute o script `main.py` no diretório raiz do projeto, como no exemplo a seguir, e prossiga conforme o script pedir:
+  Execute os scripts no diretório raiz do projeto em ordem crescente.
 
-  `python main.py`
+  `python 0_criar_tabelas.py`
+  `python 1_extrair.py`
+  `python 2_transformar.py`
+  `python 3_analise.py`
   
-
-# Sequência recomendada de execução no script main.py
-
-  Após executar o `main.py` digite os comandos em ordem crescente 1 -> 2 -> 3 -> 4 -> 5 ou digite 6 e aperte Enter.
-
-  OBS.: 
-  - As etapas 2 e 3 do script main.py costuma demorar alguns segundos para finalizar sua execução devido à manipulação e insersão de dados.
-
-  - Ao selecionar a opção 5, um arquivo plots-analysis.png será criado ou sobreescrito em ./outputs/
 
 
 # Resultado da análise
